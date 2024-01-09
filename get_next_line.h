@@ -6,7 +6,7 @@
 /*   By: merdal <merdal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 11:14:57 by merdal            #+#    #+#             */
-/*   Updated: 2024/01/05 16:36:05 by merdal           ###   ########.fr       */
+/*   Updated: 2024/01/09 14:20:00 by merdal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,7 @@ char	*countlen(char *text);
 char	*readline(char *buffer);
 char	*ft_strchr(const char *str, int c);
 char	*ft_strjoin(char *s1, char *s2);
-size_t	ft_strlcpy(char *dest, const char *src, size_t size);
 size_t	ft_strlen(const char *str);
-size_t	ft_strlcat(char *dest, const char *src, size_t size);
-char	*ft_strempty(char *str);
+char	*ft_strdup(char *str, int len);
 
 #endif
