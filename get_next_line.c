@@ -6,7 +6,7 @@
 /*   By: merdal <merdal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 11:12:42 by merdal            #+#    #+#             */
-/*   Updated: 2024/01/05 16:29:29 by merdal           ###   ########.fr       */
+/*   Updated: 2024/01/09 11:25:07 by merdal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,25 +38,24 @@ char	*get_next_line(int fd)
 
 char	*readtext(int fd, char *text)
 {
-	char	*buffer;
-	int		bytes_read;
+	char	buffer[BUFFER_SIZE + 1];
+	ssize_t	bytesread;
 
-	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (buffer == NULL)
-		return (NULL);
-	bytes_read = 1;
-	while (bytes_read > 0 && ft_strchr(text, '\n') == NULL)
+	bytesread = 1;
+	while (bytesread > 0 && !ft_strchr(text, '\n'))
 	{
-		bytes_read = read(fd, buffer, BUFFER_SIZE);
-		if (bytes_read == -1)
+		bytesread = read(fd, buffer, BUFFER_SIZE);
+		if (bytesread < 0)
 		{
-			free(buffer);
+			free(text);
 			return (NULL);
 		}
-		buffer[bytes_read] = '\0';
-		text = ft_strjoin(text, buffer);
+		if (bytesread > 0)
+		{
+			buffer[bytesread] = '\0';
+			text = ft_strjoin(text, buffer);
+		}
 	}
-	free(buffer);
 	return (text);
 }
 
@@ -92,24 +91,26 @@ char	*countlen(char *text)
 char	*readline(char *buffer)
 {
 	char	*nextline;
-	int		i;
-	int		j;
+	char	*newlinepos;
+	size_t	i;
+	size_t	len;
 
-	i = 0;
-	j = 0;
-	if (!buffer || !buffer[i])
+	if (!buffer || !*buffer)
 		return (NULL);
-	while (buffer[i] && buffer[i] != '\n')
-		i++;
-	if (!buffer[i])
+	nextline = NULL;
+	newlinepos = ft_strchr(buffer, '\n');
+	if (!newlinepos || !newlinepos[1])
 		return (NULL);
-	nextline = (char *)malloc((ft_strlen(buffer + i + 1) + 1) * sizeof(char));
+	len = ft_strlen(newlinepos + 1);
+	nextline = malloc((len + 1) * sizeof(char));
 	if (!nextline)
 		return (NULL);
-	i++;
-	j = 0;
-	while (buffer[i])
-		nextline[j++] = buffer[i++];
-	nextline[j] = '\0';
+	i = 0;
+	while (newlinepos[i + 1])
+	{
+		nextline[i] = newlinepos[i + 1];
+		i++;
+	}
+	nextline[i] = '\0';
 	return (nextline);
 }
