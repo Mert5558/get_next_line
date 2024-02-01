@@ -20,7 +20,6 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE < 1 || read(fd, 0, 0) == -1)
 	{
-		free(text);
 		text = NULL;
 		return (NULL);
 	}
