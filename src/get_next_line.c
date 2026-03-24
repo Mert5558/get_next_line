@@ -41,7 +41,7 @@ char	*readtext(int fd, char *text)
 	ssize_t	bytesread;
 
 	bytesread = 1;
-	while (bytesread > 0 && !ft_strchr(text, '\n'))
+	while (bytesread > 0 && !ft_strchr2(text, '\n'))
 	{
 		bytesread = read(fd, buffer, BUFFER_SIZE);
 		if (bytesread < 0)
@@ -52,7 +52,7 @@ char	*readtext(int fd, char *text)
 		if (bytesread > 0)
 		{
 			buffer[bytesread] = '\0';
-			text = ft_strjoin(text, buffer);
+			text = ft_strjoin2(text, buffer);
 		}
 	}
 	return (text);
@@ -97,10 +97,10 @@ char	*readline(char *buffer)
 	if (!buffer || !*buffer)
 		return (NULL);
 	nextline = NULL;
-	newlinepos = ft_strchr(buffer, '\n');
+	newlinepos = ft_strchr2(buffer, '\n');
 	if (!newlinepos || !newlinepos[1])
 		return (NULL);
-	len = ft_strlen(newlinepos + 1);
+	len = ft_strlen2(newlinepos + 1);
 	nextline = malloc((len + 1) * sizeof(char));
 	if (!nextline)
 		return (NULL);
